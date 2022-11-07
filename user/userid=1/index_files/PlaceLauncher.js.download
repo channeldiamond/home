@@ -1,0 +1,298 @@
+﻿var _____WB$wombat$assign$function_____ = function(name) {return (self._wb_wombat && self._wb_wombat.local_init && self._wb_wombat.local_init(name)) || self[name]; };
+if (!self.__WB_pmw) { self.__WB_pmw = function(obj) { this.__WB_source = obj; return this; } }
+{
+  let window = _____WB$wombat$assign$function_____("window");
+  let self = _____WB$wombat$assign$function_____("self");
+  let document = _____WB$wombat$assign$function_____("document");
+  let location = _____WB$wombat$assign$function_____("location");
+  let top = _____WB$wombat$assign$function_____("top");
+  let parent = _____WB$wombat$assign$function_____("parent");
+  let frames = _____WB$wombat$assign$function_____("frames");
+  let opener = _____WB$wombat$assign$function_____("opener");
+
+Type.registerNamespace('Roblox.Launch');
+
+Roblox.Launch._isIDE = null;
+Roblox.Launch._isRobloxBrowser = null;
+Roblox.Launch._LaunchGamePage = null;
+
+Roblox.Launch.isIDE = function ()
+{
+    if (Roblox.Launch._isIDE==null)
+    {
+        Roblox.Launch._isIDE = false;
+        Roblox.Launch._isRobloxBrowser = false;
+        if (window.external)
+        {
+            try
+            {
+                if (window.external.IsRobloxIDE !== undefined)
+                {
+                    Roblox.Launch._isIDE = window.external.IsRobloxIDE;
+				    Roblox.Launch._isRobloxBrowser = true;
+				}   
+            }
+            catch (ex)
+            {
+            }
+        }
+    }
+    return Roblox.Launch._isIDE;
+}
+
+Roblox.Launch.isRobloxBrowser = function()
+{
+    Roblox.Launch.isIDE();
+    return Roblox.Launch._isRobloxBrowser;
+}
+
+Roblox.Launch.StartGame = function (visitUrl, type)
+{
+    if (checkRobloxInstall()) {
+        urchinTracker("Visit/Try/" + type);
+
+        var prefix = null;
+        try
+        {
+            prefix = "App/";
+            var app;
+            if (Roblox.Launch.isRobloxBrowser())
+            {
+                prefix = "App/RobloxBrowser/";
+                try
+                {
+                    // Use the direct embedded way
+                    app = window.external.GetApp();
+                }
+                catch (err)
+                {
+                    prefix = "App/RobloxBrowser2/";
+                    app = new ActiveXObject("Roblox.App");
+                }
+            }
+            else
+            {
+                prefix = "App/WebBrowser/";
+                // Standard COM creation
+                app = new ActiveXObject("Roblox.App");
+            }
+            
+            if (!app)
+                throw "app is null or undefined";
+            
+            prefix = "CreateGame/";
+            var workspace = app.CreateGame(2);    // Window
+                
+            prefix = "ExecUrlScript/";
+            workspace.ExecUrlScript(visitUrl);
+        }
+        catch (err)
+        {
+            var message = err.message;
+            if (message=="User cancelled")
+            {
+                urchinTracker("Visit/UserCancelled/" + type);
+                return false;
+            }
+            var automationError = prefix=="App/";
+            if (automationError)
+            {
+                if (Roblox.Launch.isIDE())
+                    message = "isIDE/";
+                else if (Roblox.Launch.isRobloxBrowser())
+                    message = "isRobloxBrowser/";
+		        else
+		            message = "";
+               	try
+                {
+                    var x = new ActiveXOject("Msxml2.XMLHTTP");
+                }
+                catch (err2)
+                {
+                    try
+                    {
+                        var y = new ActiveXOject("Microsoft.XMLHTTP");
+                    }
+                    catch (err3)
+                    {
+                        message = "Failed XMLHTTP/" + message;
+                    }
+                }
+		        message = message + err.message;
+                 
+            }
+            
+            
+            if (automationError && !Roblox.Launch.isRobloxBrowser())
+            {
+                urchinTracker("Visit/Redirect/" + type + "/" + prefix + encodeURIComponent(message));
+   				window.location = Roblox.Launch._LaunchGamePage;
+			}
+			else
+                urchinTracker("Visit/Fail/" + type + "/" + prefix + encodeURIComponent(message));
+				
+            return false;
+        }
+
+        urchinTracker("Visit/Success/" + type);
+        return true;
+    }
+}
+
+Roblox.Launch.CheckRobloxInstall = function(clientVersion, installPath, updatePath) {
+	try 
+	{
+		var robloxUpdater = new ActiveXObject("RobloxInstall.Updater");
+
+		// See if product is out of date
+		if (robloxUpdater.Version == "") {
+			window.location = updatePath;
+			return false;
+		}
+		if (robloxUpdater.Version != clientVersion) {
+			window.location = updatePath;
+			return false;
+		}
+	} 
+	catch(e) 
+	{
+		// failure indicates Roblox is not properly installed - install product:
+		window.location = installPath;
+		return false;
+	}
+	return true;
+}
+
+Type.registerNamespace('RBX');
+
+RBX.PlaceLauncher = function(modalBehavior) {
+    this._modalBehavior = modalBehavior;
+    
+    this._popup = $get(this._modalBehavior.get_PopupControlID());
+    this._cancelButton = $get("Cancel", this._popup);
+    this._cancelHandler = null;
+    
+    this._cancelled = false;
+   }
+
+RBX.PlaceLauncher.prototype = {
+
+    // TODO: This should only be called once.  What if you call it again???
+    RequestGame: function(placeID) {
+   
+        if (checkRobloxInstall()) {
+        
+            this._showDialog();
+            
+            // Now send a request to the Grid...
+            var onSuccess = function (result, context) { context._onGameStatus(result); };
+            var onError = function (result, context) { context._onError(result); };
+            Roblox.PlaceLauncher.Service.RequestGame(placeID, onSuccess, onError, this);
+        }
+        return false;
+    },
+
+    // TODO: This should only be called once.  What if you call it again???
+    RequestGameJob: function(gameJobID) {
+   
+        checkRobloxInstall();
+        
+        this._showDialog();
+        
+        // Now send a request to the Grid...
+        var onSuccess = function (result, context) { context._onGameStatus(result); };
+        var onError = function (result, context) { context._onError(result); };
+        Roblox.PlaceLauncher.Service.CheckGameJobStatus(gameJobID, 3, onSuccess, onError, this);
+        return false;
+    },
+
+    _onGameStatus : function (result) {
+        if (this._cancelled)
+            return;
+        
+        this._updateStatus(result.status);
+
+        if (result.status==2)
+        {
+            Roblox.Launch.StartGame(result.joinScriptUrl, "Join");
+            this._modalBehavior.hide();
+        }
+        else if (result.status<2)
+        {
+            // Try again
+            var onSuccess = function (result, context) { context._onGameStatus(result); };
+            var onError = function (result, context) { context._onError(result); };
+            Roblox.PlaceLauncher.Service.CheckGameJobStatus(result.jobID, 3, onSuccess, onError, this);
+        }
+    },
+    
+    _updateStatus : function (status)
+    {
+        $get("Spinner", this._popup).style.display = status<3 ? 'block' : 'none';
+        $get("Requesting", this._popup).style.display = 'none';
+        $get("Joining", this._popup).style.display = status==2 ? 'inline' : 'none';
+        $get("Waiting", this._popup).style.display = status==0 ? 'inline' : 'none';
+        $get("Loading", this._popup).style.display = status==1 ? 'inline' : 'none';
+        $get("Error", this._popup).style.display = status==3 ? 'inline' : 'none';
+        $get("Expired", this._popup).style.display = status==4 ? 'inline' : 'none';
+        $get("GameEnded", this._popup).style.display = status==5 ? 'inline' : 'none';
+        $get("GameFull", this._popup).style.display = status==6 ? 'inline' : 'none';
+   },
+
+    _onError : function (result)
+    {
+        this._updateStatus(3);
+    },
+
+    _onCancel : function(e) {
+        this._cancelled = true;
+        this._modalBehavior.hide();
+        return false;
+    },
+
+    _showDialog : function() {
+        // Listen for cancel
+        this._cancelHandler = Function.createDelegate(this, this._onCancel);
+        $addHandler(this._cancelButton, 'click', this._cancelHandler);
+        
+        this._modalBehavior.show();
+    },
+
+    dispose : function() {
+        if (this._cancelHandler && _cancelButton) {
+            $removeHandler(_cancelButton, 'click', this._cancelHandler);
+            this._cancelHandler = null;
+        }
+        
+        RBX.PlaceLauncher.callBaseMethod(this, 'dispose');
+    }
+}
+
+RBX.PlaceLauncher.registerClass('RBX.PlaceLauncher', null, Sys.IDisposable);
+
+// Notify ScriptManager that this is the end of the script.
+if (typeof(Sys) !== 'undefined') Sys.Application.notifyScriptLoaded(); 
+
+
+}
+/*
+     FILE ARCHIVED ON 20:15:28 Aug 20, 2007 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 14:25:22 Nov 07, 2022.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 170.824
+  exclusion.robots: 0.107
+  exclusion.robots.policy: 0.097
+  RedisCDXSource: 1.805
+  esindex: 0.011
+  LoadShardBlock: 146.635 (3)
+  PetaboxLoader3.datanode: 153.596 (4)
+  CDXLines.iter: 18.132 (3)
+  load_resource: 82.643
+  PetaboxLoader3.resolve: 36.561
+*/
