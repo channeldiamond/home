@@ -1,2 +1,2 @@
-# channeldiamond.github.io
+# Channel Diamond!
 a old 2016 revival
