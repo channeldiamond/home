@@ -1,0 +1,20 @@
+<html>
+<body>
+
+    <div id="root"></div> 
+</body>
+<h1> Channel Diamond: 32 Chat </h1>
+<b>32 Chat is a app for a webiste called channel diamond allowing players to not only play games on the site, but too also voice chat</b>
+<title>32 Chat</title>
+<script src="https://resource.zegocloud.com/prebuilt/crypto-js.js"></script>
+<script src="https://resource.zegocloud.com/prebuilt/prebuiltToken.js"></script>
+<script src="https://zegocloud.github.io/zegocloud_prebuilt_webrtc/ZegoPrebuilt/index.umd.js"></script>
+<script>
+const TOKEN = generatePrebuiltToken(695455557,"f1bd38325f0125840b37c2b831e6fd61",'room2','UserID-' + Math.random(),'Enter Username'+ Math.random());
+
+const zp = ZegoUIKitPrebuilt.create(TOKEN);
+zp.joinRoom({
+    container : document.querySelector("#root"),
+});
+</script>
+</html>
