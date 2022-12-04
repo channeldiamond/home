@@ -1,0 +1,2274 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Expires" content="Mon, 17 Jun 2019 21:30:00 GMT">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="viewport" content="width=device-width" >
+<title>Bathroom Minigame</title>
+<link rel="icon"href="image/favicon.ico">
+<!--
+<link rel="stylesheet" type="text/css" href=".css">
+-->
+<style type="text/css">
+#body{
+    background-color: #5D8AA8;
+    margin: 0px;
+    padding: 0px;
+    line-height: 1em;
+}
+#d1{
+    width:970px;
+    height:580px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    position: relative;
+}
+/*トイレ全体*/
+#back{width:970px;height:580px;position:absolute;left:0px;top:0px;}
+#mthum{width:23px;height:190px;position:absolute;left:0px;top:0px;}
+#pthum{width:37px;height:53px;position:absolute;left:484px;top:181px;}
+#kthum1{
+    width:21px;height:356px;
+    position:absolute;left:363px;top:75px;
+    opacity:0.0;background-color:#5D8AA8;
+}
+#kthum2{
+    width:9px;height:251px;
+    position:absolute;left:399px;top:126px;
+    opacity:0.0;background-color:#5D8AA8;
+}
+#kthum3{
+    width:8px;height:187px;
+    position:absolute;left:417px;top:165px;
+    opacity:0.0;background-color:#5D8AA8;
+}
+/*個室セット*/
+#koshitsu1{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#koshitsu2{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#holderclose1{width:167px;height:158px;position:absolute;left:98px;top:329px;display:none;}
+#holderclose2{width:167px;height:158px;position:absolute;left:98px;top:329px;display:none;}
+#holderopen{width:201px;height:233px;position:absolute;left:64px;top:254px;display:none;}
+#holderopenmemo{width:201px;height:233px;position:absolute;left:64px;top:254px;display:none;}
+#kinoita{width:128px;height:213px;position:absolute;left:743px;top:300px;display:none;}
+#toiletclose{width:244px;height:572px;position:absolute;left:369px;top:8px;display:none;}
+#toiletopen{width:244px;height:572px;position:absolute;left:369px;top:8px;display:none;}
+#backbtpr1{width:89px;height:30px;position:absolute;left:10px;top:10px;border-radius:20%;display:none;}
+#backbtpr2{width:89px;height:30px;position:absolute;left:10px;top:10px;border-radius:20%;display:none;}
+/*？？？*/
+#toiletclose2{width:244px;height:572px;position:absolute;left:369px;top:8px;display:none;}
+#kuma{width:386px;height:567px;position:absolute;left:293px;bottom:0px;display:none;}
+/*木の板シーン*/
+#kinoback1{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kinoback2{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kinoback3{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#sheepkeyarea{
+    width:75px;height:211px;
+    position:absolute;left:449px;top:174px;
+    background-color:#00ff00;opacity:0.0;display:none;
+}
+/*ポスタータイル*/
+#postertile{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#driver{width:90px;height:144px;position:absolute;left:442px;top:175px;display:none;}
+#poster{width:309px;height:438px;position:absolute;left:330px;top:48px;display:none;}
+/*鏡のシーン*/
+#kinkoback3{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kinkoback2{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kinkoback1{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#key0{width:30px;height:30px;position:absolute;left:559px;top:284px;display:none;}
+#key1{width:30px;height:30px;position:absolute;left:559px;top:249px;display:none;}
+#key4{width:30px;height:30px;position:absolute;left:559px;top:214px;display:none;}
+#key7{width:30px;height:30px;position:absolute;left:559px;top:179px;display:none;}
+#key2{width:30px;height:30px;position:absolute;left:594px;top:249px;display:none;}
+#key5{width:30px;height:30px;position:absolute;left:594px;top:214px;display:none;}
+#key8{width:30px;height:30px;position:absolute;left:594px;top:179px;display:none;}
+#key3{width:30px;height:30px;position:absolute;left:629px;top:249px;display:none;}
+#key6{width:30px;height:30px;position:absolute;left:629px;top:214px;display:none;}
+#key9{width:30px;height:30px;position:absolute;left:629px;top:179px;display:none;}
+#key00{width:30px;height:30px;position:absolute;left:559px;top:284px;display:none;}
+#key11{width:30px;height:30px;position:absolute;left:559px;top:249px;display:none;}
+#key44{width:30px;height:30px;position:absolute;left:559px;top:214px;display:none;}
+#key77{width:30px;height:30px;position:absolute;left:559px;top:179px;display:none;}
+#key22{width:30px;height:30px;position:absolute;left:594px;top:249px;display:none;}
+#key55{width:30px;height:30px;position:absolute;left:594px;top:214px;display:none;}
+#key88{width:30px;height:30px;position:absolute;left:594px;top:179px;display:none;}
+#key33{width:30px;height:30px;position:absolute;left:629px;top:249px;display:none;}
+#key66{width:30px;height:30px;position:absolute;left:629px;top:214px;display:none;}
+#key99{width:30px;height:30px;position:absolute;left:629px;top:179px;display:none;}
+#key000{width:30px;height:30px;position:absolute;left:559px;top:284px;display:none;}
+#key111{width:30px;height:30px;position:absolute;left:559px;top:249px;display:none;}
+#key444{width:30px;height:30px;position:absolute;left:559px;top:214px;display:none;}
+#key777{width:30px;height:30px;position:absolute;left:559px;top:179px;display:none;}
+#key222{width:30px;height:30px;position:absolute;left:594px;top:249px;display:none;}
+#key555{width:30px;height:30px;position:absolute;left:594px;top:214px;display:none;}
+#key888{width:30px;height:30px;position:absolute;left:594px;top:179px;display:none;}
+#key333{width:30px;height:30px;position:absolute;left:629px;top:249px;display:none;}
+#key666{width:30px;height:30px;position:absolute;left:629px;top:214px;display:none;}
+#key999{width:30px;height:30px;position:absolute;left:629px;top:179px;display:none;}
+#key0000{width:30px;height:30px;position:absolute;left:559px;top:284px;display:none;}
+#key1111{width:30px;height:30px;position:absolute;left:559px;top:249px;display:none;}
+#key4444{width:30px;height:30px;position:absolute;left:559px;top:214px;display:none;}
+#key7777{width:30px;height:30px;position:absolute;left:559px;top:179px;display:none;}
+#key2222{width:30px;height:30px;position:absolute;left:594px;top:249px;display:none;}
+#key5555{width:30px;height:30px;position:absolute;left:594px;top:214px;display:none;}
+#key8888{width:30px;height:30px;position:absolute;left:594px;top:179px;display:none;}
+#key3333{width:30px;height:30px;position:absolute;left:629px;top:249px;display:none;}
+#key6666{width:30px;height:30px;position:absolute;left:629px;top:214px;display:none;}
+#key9999{width:30px;height:30px;position:absolute;left:629px;top:179px;display:none;}
+#keydum0{width:30px;height:30px;position:absolute;left:559px;top:284px;display:none;}
+#keydum1{width:30px;height:30px;position:absolute;left:559px;top:249px;display:none;}
+#keydum4{width:30px;height:30px;position:absolute;left:559px;top:214px;display:none;}
+#keydum7{width:30px;height:30px;position:absolute;left:559px;top:179px;display:none;}
+#keydum2{width:30px;height:30px;position:absolute;left:594px;top:249px;display:none;}
+#keydum5{width:30px;height:30px;position:absolute;left:594px;top:214px;display:none;}
+#keydum8{width:30px;height:30px;position:absolute;left:594px;top:179px;display:none;}
+#keydum3{width:30px;height:30px;position:absolute;left:629px;top:249px;display:none;}
+#keydum6{width:30px;height:30px;position:absolute;left:629px;top:214px;display:none;}
+#keydum9{width:30px;height:30px;position:absolute;left:629px;top:179px;display:none;}
+#mirror{width:446px;height:559px;position:absolute;left:263px;top:6px;display:none;}
+#backbtm{width:89px;height:30px;position:absolute;left:10px;top:10px;border-radius:20%;display:none;}
+#kuginukiarea{
+    width:206px;height:389px;
+    position:absolute;left:316px;top:47px;
+    background-color:#00ff00;opacity:0.0;display:none;
+}
+/*羊ドアのシーン*/
+#sheepdoor{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#sheepdooropen{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#nobuhitarea{width:40px;height:40px;position:absolute;left:631px;top:504px;display:none;}
+#nobu1{width:40px;height:40px;position:absolute;left:631px;top:504px;display:none;}
+#nobu2{width:40px;height:40px;position:absolute;left:631px;top:504px;display:none;}
+#backbtd{width:89px;height:30px;position:absolute;left:10px;top:10px;border-radius:20%;display:none;}
+#linkarea{
+    width:320px;height:568px;
+    position:absolute;left:370px;top:12px;
+    background-color:#00ff00;opacity:0.0;display:none;
+}
+/*テロップ*/
+#telop{
+    color:#ffffff;font-size:20px;background-color:#000000;
+    margin: 0px;padding: 0px;line-height: 1em;text-align:left;
+    position:absolute;left:315px;bottom:5px;
+}
+#yes1{width:46px;height:23px;position:absolute;left:596px;top:543px;display:none;}
+#no1{width:33px;height:23px;position:absolute;left:653px;top:543px;display:none;}
+#yes2{width:46px;height:23px;position:absolute;left:596px;top:543px;display:none;}
+#no2{width:33px;height:23px;position:absolute;left:653px;top:543px;display:none;}
+/*落ちる首*/
+#neck1{width:352px;height:175px;position:absolute;left:341px;top:0px;display:none;}
+#neck2{width:593px;height:266px;position:absolute;left:175px;top:0px;display:none;}
+#neck3{width:738px;height:386px;position:absolute;left:62px;top:0px;display:none;}
+#neck4{width:752px;height:494px;position:absolute;left:49px;top:43px;display:none;}
+#neck5{width:739px;height:382px;position:absolute;left:66px;bottom:0px;display:none;}
+#neck6{width:593px;height:263px;position:absolute;left:176px;bottom:0px;display:none;}
+#neck7{width:340px;height:168px;position:absolute;left:346px;bottom:0px;display:none;}
+/*首絞め女*/
+#kbsmhitarea{
+    width:440px;height:580px;
+    position:absolute;left:265px;top:0px;
+    background-color:#00ff00;opacity:0.0;display:none;
+}
+#kbsmnoclick{
+    width:970px;height:580px;
+    position:absolute;left:0px;top:0px;
+    background-color:#00ff00;opacity:0.0;display:none;
+}
+#kbsm1{width:274px;height:319px;position:absolute;left:347px;top:86px;display:none;}
+#kbsm2{width:428px;height:499px;position:absolute;left:270px;top:43px;display:none;}
+#kbsm3{width:582px;height:580px;position:absolute;left:194px;top:0px;display:none;}
+#kbsm4{width:726px;height:580px;position:absolute;left:122px;top:0px;display:none;}
+#kbsm5{width:856px;height:580px;position:absolute;left:57px;top:0px;display:none;}
+#kbsm6{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kbsm7{width:970px;height:580px;position:absolute;left:0px;top:0px;display:none;}
+#kbsmdeath1{width:495px;height:580px;position:absolute;left:237px;top:0px;display:none;}
+#kbsmdeath2{width:317px;height:580px;position:absolute;left:326px;top:0px;display:none;}
+/*ゲームオーバー*/
+#gameover{width:970px;height:580px;position:absolute;left:0px;top:0px;opacity:0.0;display:none;}
+/*★★★★★★★★★★★★★★★★★★★★★ロード画面★★★★★★★★★★★★★★★★★★★★★*/
+#loadback{
+    width:970px;height:580px;
+    position:absolute;left:0px;top:0px;
+    background-color:#000000;
+}
+#nowloading{
+    width:231px;height:231px;
+    position:absolute;left:0px;right:0px;top:0px;bottom:0px;margin:auto;
+    user-select:none;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none;
+}
+</style>
+
+</head>
+<body id="body">
+<h1> Channel Diamond Minigame </h1>
+<h1> Objective:</h1>
+<b> find all items while trying to avoid the monsters, ps. if you have the nail punch you can use it to kill duncan if he jumpscares you </b>
+<b> next get the screwdriver, unlock the mirror with a hidden code, then you will get the nail punch to kill duncan and get the sheep key </b>
+<b> then we will move on, good luck! you will need it :) </b>
+<h2>Total Monsters: 2 | Headless Joshua | Nacnud Spirit</h2>
+<!--効果音の二次配布・無断利用禁止。各効果音素材のサイト様へのリンクはトップページにございます。-->
+<!--Secondary distribution of sound effects · Unauthorized use prohibited. The link to the site of each sound effect material is on the top page.-->
+<!--音声の二次配布・無断利用禁止。-->
+<!--Secondary distribution of voice / unauthorized use prohibited.-->
+
+<audio id="poshagashise" preload="auto">
+<source src="pse/poshagashi.wav" type="audio/wav">
+<source src="pse/poshagashi.mp3" type="audio/mp3">
+</audio>
+
+<audio id="itemgetse" preload="auto">
+<source src="pse/itemget.wav" type="audio/wav">
+<source src="pse/itemget.mp3" type="audio/mp3">
+</audio>
+
+<audio id="mirroroutse" preload="auto">
+<source src="pse/mirrorout.wav" type="audio/wav">
+<source src="pse/mirrorout.mp3" type="audio/mp3">
+</audio>
+
+<audio id="kapakapase" preload="auto">
+<source src="pse/nisefutaout.wav" type="audio/wav">
+<source src="pse/nisefutaout.mp3" type="audio/mp3">
+</audio>
+
+<audio id="gachagachase" preload="auto">
+<source src="pse/gachagachalong.wav" type="audio/wav">
+<source src="pse/gachagachalong.mp3" type="audio/mp3">
+</audio>
+
+<audio id="keyse" preload="auto">
+<source src="pse/piepasskey.wav" type="audio/wav">
+<source src="pse/piepasskey.mp3" type="audio/mp3">
+</audio>
+
+<audio id="keysucse" preload="auto">
+<source src="pse/piepasssuc.wav" type="audio/wav">
+<source src="pse/piepasssuc.mp3" type="audio/mp3">
+</audio>
+
+<audio id="kinkoopense" preload="auto">
+<source src="pse/kinkoopen.wav" type="audio/wav">
+<source src="pse/kinkoopen.mp3" type="audio/mp3">
+</audio>
+
+<audio id="unlockse" preload="auto">
+<source src="pse/boxunlock.wav" type="audio/wav">
+<source src="pse/boxunlock.mp3" type="audio/mp3">
+</audio>
+
+<audio id="doorse" preload="auto">
+<source src="pse/doorkishimi.wav" type="audio/wav">
+<source src="pse/doorkishimi.mp3" type="audio/mp3">
+</audio>
+
+<audio id="kbsmkoe" preload="auto">
+<source src="pse/kbsmkoe.wav" type="audio/wav">
+<source src="pse/kbsmkoe.mp3" type="audio/mp3">
+</audio>
+
+<audio id="shotse" preload="auto">
+<source src="pse/bomber.wav" type="audio/wav">
+<source src="pse/bomber.mp3" type="audio/mp3">
+</audio>
+
+<div id="d1">
+<img src="pimg/toilet/zentai.jpg"id="back">
+<img src="pimg/toilet/mirrorthum.jpg"id="mthum">
+<img src="pimg/toilet/posterthum.jpg"id="pthum">
+<div id="kthum1"></div>
+<div id="kthum2"></div>
+<div id="kthum3"></div>
+<!--個室セット-->
+<img src="pimg/toilet/koshitsu1.jpg"id="koshitsu1">
+<img src="pimg/toilet/koshitsu2.jpg"id="koshitsu2">
+<img src="pimg/toilet/holderclose.png"id="holderclose1">
+<img src="pimg/toilet/holderclose.png"id="holderclose2">
+<img src="pimg/toilet/holderopen.png"id="holderopen">
+<img src="pimg/toilet/holderopenmemo.png"id="holderopenmemo">
+<img src="pimg/toilet/kinoita.png"id="kinoita">
+<img src="pimg/toilet/toiletclose.png"id="toiletclose">
+<img src="pimg/toilet/toiletopen.png"id="toiletopen">
+<img src="pimg/backbutton.jpg"id="backbtpr1">
+<img src="pimg/backbutton.jpg"id="backbtpr2">
+<!--？？？-->
+<img src="pimg/toilet/toiletclose.png"id="toiletclose2">
+<img src="pimg/toilet/kuma.png"id="kuma">
+<!--木の板のシーン-->
+<img src="pimg/toilet/kinoitaback1.jpg"id="kinoback1">
+<img src="pimg/toilet/kinoitaback2.jpg"id="kinoback2">
+<img src="pimg/toilet/kinoitaback3.jpg"id="kinoback3">
+<div id="sheepkeyarea"></div>
+<!--ポスターのシーン-->
+<img src="pimg/toilet/postertile.jpg"id="postertile">
+<img src="pimg/toilet/driver.png"id="driver">
+<img src="pimg/toilet/poster.png"id="poster">
+<!--鏡のシーン-->
+<img src="pimg/toilet/kinkoback3.jpg"id="kinkoback3">
+<img src="pimg/toilet/kinkoback2.jpg"id="kinkoback2">
+<img src="pimg/toilet/kinkoback1.jpg"id="kinkoback1">
+<img src="pimg/toilet/key0.jpg"id="key0">
+<img src="pimg/toilet/key1.jpg"id="key1">
+<img src="pimg/toilet/key2.jpg"id="key2">
+<img src="pimg/toilet/key3.jpg"id="key3">
+<img src="pimg/toilet/key4.jpg"id="key4">
+<img src="pimg/toilet/key5.jpg"id="key5">
+<img src="pimg/toilet/key6.jpg"id="key6">
+<img src="pimg/toilet/key7.jpg"id="key7">
+<img src="pimg/toilet/key8.jpg"id="key8">
+<img src="pimg/toilet/key9.jpg"id="key9">
+<img src="pimg/toilet/key0.jpg"id="key00">
+<img src="pimg/toilet/key1.jpg"id="key11">
+<img src="pimg/toilet/key2.jpg"id="key22">
+<img src="pimg/toilet/key3.jpg"id="key33">
+<img src="pimg/toilet/key4.jpg"id="key44">
+<img src="pimg/toilet/key5.jpg"id="key55">
+<img src="pimg/toilet/key6.jpg"id="key66">
+<img src="pimg/toilet/key7.jpg"id="key77">
+<img src="pimg/toilet/key8.jpg"id="key88">
+<img src="pimg/toilet/key9.jpg"id="key99">
+<img src="pimg/toilet/key0.jpg"id="key000">
+<img src="pimg/toilet/key1.jpg"id="key111">
+<img src="pimg/toilet/key2.jpg"id="key222">
+<img src="pimg/toilet/key3.jpg"id="key333">
+<img src="pimg/toilet/key4.jpg"id="key444">
+<img src="pimg/toilet/key5.jpg"id="key555">
+<img src="pimg/toilet/key6.jpg"id="key666">
+<img src="pimg/toilet/key7.jpg"id="key777">
+<img src="pimg/toilet/key8.jpg"id="key888">
+<img src="pimg/toilet/key9.jpg"id="key999">
+<img src="pimg/toilet/key0.jpg"id="key0000">
+<img src="pimg/toilet/key1.jpg"id="key1111">
+<img src="pimg/toilet/key2.jpg"id="key2222">
+<img src="pimg/toilet/key3.jpg"id="key3333">
+<img src="pimg/toilet/key4.jpg"id="key4444">
+<img src="pimg/toilet/key5.jpg"id="key5555">
+<img src="pimg/toilet/key6.jpg"id="key6666">
+<img src="pimg/toilet/key7.jpg"id="key7777">
+<img src="pimg/toilet/key8.jpg"id="key8888">
+<img src="pimg/toilet/key9.jpg"id="key9999">
+<img src="pimg/toilet/key0.jpg"id="keydum0">
+<img src="pimg/toilet/key1.jpg"id="keydum1">
+<img src="pimg/toilet/key2.jpg"id="keydum2">
+<img src="pimg/toilet/key3.jpg"id="keydum3">
+<img src="pimg/toilet/key4.jpg"id="keydum4">
+<img src="pimg/toilet/key5.jpg"id="keydum5">
+<img src="pimg/toilet/key6.jpg"id="keydum6">
+<img src="pimg/toilet/key7.jpg"id="keydum7">
+<img src="pimg/toilet/key8.jpg"id="keydum8">
+<img src="pimg/toilet/key9.jpg"id="keydum9">
+<img src="pimg/toilet/mirror.jpg"id="mirror">
+<img src="pimg/backbutton.jpg"id="backbtm">
+<div id="kuginukiarea"></div>
+<!--羊ドアのシーン-->
+<img src="pimg/toilet/sheepdoor.jpg"id="sheepdoor">
+<img src="pimg/toilet/sheepdoor2.jpg"id="sheepdooropen">
+<img src="pimg/toilet/doornobu1.png"id="nobu1">
+<img src="pimg/toilet/doornobu2.png"id="nobu2">
+<img src="pimg/toilet/doornobu1.png"id="nobuhitarea">
+<img src="pimg/backbutton.jpg"id="backbtd">
+<div id="linkarea"></div>
+<!--テロップ-->
+<p id="telop"></p>
+<img src="pimg/toilet/yes.jpg"id="yes1">
+<img src="pimg/toilet/no.jpg"id="no1">
+<img src="pimg/toilet/yes.jpg"id="yes2">
+<img src="pimg/toilet/no.jpg"id="no2">
+<!--落ちる首-->
+<img src="pimg/toilet/neck1.png"id="neck1">
+<img src="pimg/toilet/neck2.png"id="neck2">
+<img src="pimg/toilet/neck3.png"id="neck3">
+<img src="pimg/toilet/neck4.png"id="neck4">
+<img src="pimg/toilet/neck5.png"id="neck5">
+<img src="pimg/toilet/neck6.png"id="neck6">
+<img src="pimg/toilet/neck7.png"id="neck7">
+<!--首絞め女-->
+<div id="kbsmnoclick"></div>
+<img src="pimg/toilet/kbsm1.png"id="kbsm1">
+<img src="pimg/toilet/kbsm2.png"id="kbsm2">
+<img src="pimg/toilet/kbsm3.png"id="kbsm3">
+<img src="pimg/toilet/kbsm4.png"id="kbsm4">
+<img src="pimg/toilet/kbsm5.png"id="kbsm5">
+<img src="pimg/toilet/kbsm6.png"id="kbsm6">
+<img src="pimg/toilet/kbsm7.png"id="kbsm7">
+<img src="pimg/toilet/kbsmdeath1.png"id="kbsmdeath1">
+<img src="pimg/toilet/kbsmdeath2.png"id="kbsmdeath2">
+<div id="kbsmhitarea"></div>
+<!--ゲームオーバー-->
+<img src="pimg/gameover.jpg"id="gameover">
+<!--★★★★★★★★★★★★★★★★★ロード画面★★★★★★★★★★★★★★★★★-->
+<div id="loadback"></div>
+<img src="pimg/nowloading.gif"id="nowloading">
+</div>
+<script>
+/*★★★★★★★★★★★★★★★★★右クリック＆画像ドロップ禁止★★★★★★★★★★★★★★★★★★★★*/
+document.oncontextmenu = function(){return false;}
+document.onselectstart = function(){return false;}
+document.onmousedown = function(){return false;}
+/*★★★★★★★★★★★★★★★★★★★★★ロード画面★★★★★★★★★★★★★★★★★★★★★★★★*/
+let loadback = document.getElementById('loadback');
+let nowloading = document.getElementById('nowloading');
+/*★★★★★★★★★★★★★★★★読み込みが完了したらロード画面を非表示★★★★★★★★★★★★★★★★*/
+window.addEventListener('load',function(){
+    nowloading.style.display = 'none';
+    loadback.style.display = 'none';
+});
+let body = document.getElementById('body');
+let d1 = document.getElementById('d1');
+/*トイレ全体*/
+let back = document.getElementById('back');
+let mthum = document.getElementById('mthum');
+let pthum = document.getElementById('pthum');
+let kthum1 = document.getElementById('kthum1');
+let kthum2 = document.getElementById('kthum2');
+let kthum3 = document.getElementById('kthum3');
+/*個室セット*/
+let koshitsu1 = document.getElementById('koshitsu1');//個室1
+let holderclose1 = document.getElementById('holderclose1');//個室1
+let holderopen = document.getElementById('holderopen');//個室1
+let kinoita = document.getElementById('kinoita');//個室1
+let backbtpr1 = document.getElementById('backbtpr1');//個室1
+let koshitsu2 = document.getElementById('koshitsu2');//個室2
+let holderclose2 = document.getElementById('holderclose2');//個室2
+let holderopenmemo = document.getElementById('holderopenmemo');//個室2
+let backbtpr2 = document.getElementById('backbtpr2');//個室2
+let toiletclose = document.getElementById('toiletclose');
+let toiletopen = document.getElementById('toiletopen');
+/*？？？*/
+let toiletclose2 = document.getElementById('toiletclose2');
+let kuma = document.getElementById('kuma');
+/*木の板シーン*/
+let kinoback1 = document.getElementById('kinoback1');
+let kinoback2 = document.getElementById('kinoback2');
+let kinoback3 = document.getElementById('kinoback3');
+let sheepkeyarea = document.getElementById('sheepkeyarea');
+/*ポスタータイル*/
+let postertile = document.getElementById('postertile');
+let driver = document.getElementById('driver');
+let poster = document.getElementById('poster');
+/*鏡のシーン*/
+let kinkoback3 = document.getElementById('kinkoback3');
+let kinkoback2 = document.getElementById('kinkoback2');
+let kinkoback1 = document.getElementById('kinkoback1');
+let key0 = document.getElementById('key0');
+let key1 = document.getElementById('key1');
+let key2 = document.getElementById('key2');
+let key3 = document.getElementById('key3');
+let key4 = document.getElementById('key4');
+let key5 = document.getElementById('key5');
+let key6 = document.getElementById('key6');
+let key7 = document.getElementById('key7');
+let key8 = document.getElementById('key8');
+let key9 = document.getElementById('key9');
+let key00 = document.getElementById('key00');
+let key11 = document.getElementById('key11');
+let key22 = document.getElementById('key22');
+let key33 = document.getElementById('key33');
+let key44 = document.getElementById('key44');
+let key55 = document.getElementById('key55');
+let key66 = document.getElementById('key66');
+let key77 = document.getElementById('key77');
+let key88 = document.getElementById('key88');
+let key99 = document.getElementById('key99');
+let key000 = document.getElementById('key000');
+let key111 = document.getElementById('key111');
+let key222 = document.getElementById('key222');
+let key333 = document.getElementById('key333');
+let key444 = document.getElementById('key444');
+let key555 = document.getElementById('key555');
+let key666 = document.getElementById('key666');
+let key777 = document.getElementById('key777');
+let key888 = document.getElementById('key888');
+let key999 = document.getElementById('key999');
+let key0000 = document.getElementById('key0000');
+let key1111 = document.getElementById('key1111');
+let key2222 = document.getElementById('key2222');
+let key3333 = document.getElementById('key3333');
+let key4444 = document.getElementById('key4444');
+let key5555 = document.getElementById('key5555');
+let key6666 = document.getElementById('key6666');
+let key7777 = document.getElementById('key7777');
+let key8888 = document.getElementById('key8888');
+let key9999 = document.getElementById('key9999');
+let keydum0 = document.getElementById('keydum0');
+let keydum1 = document.getElementById('keydum1');
+let keydum2 = document.getElementById('keydum2');
+let keydum3 = document.getElementById('keydum3');
+let keydum4 = document.getElementById('keydum4');
+let keydum5 = document.getElementById('keydum5');
+let keydum6 = document.getElementById('keydum6');
+let keydum7 = document.getElementById('keydum7');
+let keydum8 = document.getElementById('keydum8');
+let keydum9 = document.getElementById('keydum9');
+let mirror = document.getElementById('mirror');
+let backbtm = document.getElementById('backbtm');
+let kuginukiarea = document.getElementById('kuginukiarea');
+/*羊扉のシーン*/
+let sheepdoor = document.getElementById('sheepdoor');
+let sheepdooropen = document.getElementById('sheepdooropen');
+let nobu1 = document.getElementById('nobu1');
+let nobu2 = document.getElementById('nobu2');
+let nobuhitarea = document.getElementById('nobuhitarea');
+let backbtd = document.getElementById('backbtd');
+let linkarea = document.getElementById('linkarea');
+/*テロップ*/
+let telop = document.getElementById('telop');
+let yes1 = document.getElementById('yes1');
+let no1 = document.getElementById('no1');
+let yes2 = document.getElementById('yes2');
+let no2 = document.getElementById('no2');
+/*落ちる首*/
+let neck1 = document.getElementById('neck1');
+let neck2 = document.getElementById('neck2');
+let neck3 = document.getElementById('neck3');
+let neck4 = document.getElementById('neck4');
+let neck5 = document.getElementById('neck5');
+let neck6 = document.getElementById('neck6');
+let neck7 = document.getElementById('neck7');
+/*首絞め女*/
+let kbsmnoclick = document.getElementById('kbsmnoclick');
+let kbsm1 = document.getElementById('kbsm1');
+let kbsm2 = document.getElementById('kbsm2');
+let kbsm3 = document.getElementById('kbsm3');
+let kbsm4 = document.getElementById('kbsm4');
+let kbsm5 = document.getElementById('kbsm5');
+let kbsm6 = document.getElementById('kbsm6');
+let kbsm7 = document.getElementById('kbsm7');
+let kbsmhitarea = document.getElementById('kbsmhitarea');
+let kbsmdeath1 = document.getElementById('kbsmdeath1');
+let kbsmdeath2 = document.getElementById('kbsmdeath2');
+/*ゲームオーバー*/
+let gameover = document.getElementById('gameover');
+/*効果音*/
+let seposhagashi = document.getElementById('poshagashise');
+let seitemget = document.getElementById('itemgetse');
+let semirrorout = document.getElementById('mirroroutse');
+let sekapakapa = document.getElementById('kapakapase');
+let segachagacha = document.getElementById('gachagachase');
+let sekey = document.getElementById('keyse');
+let sekeysuc = document.getElementById('keysucse');
+let sekinkoopen = document.getElementById('kinkoopense');
+let seunlock = document.getElementById('unlockse');
+let sedoor = document.getElementById('doorse');
+let koekbsm = document.getElementById('kbsmkoe');
+let seshot = document.getElementById('shotse');
+/*スコア*/
+let fps1 = 0;
+let fps2 = 0;
+let fps3 = 0;
+let fps4 = 0;
+let fps5 = 0;
+let fps6 = 0;
+let fps7 = 0;
+let fps8 = 0;
+let fps9 = 0;
+let fps10 = 0;
+let fps11 = 0;
+let fps12 = 0;
+let fps13 = 0;
+let fps14 = 0;
+let driverpoint = 0;
+let mirrorpoint = 0;
+let kuginukipoint = 0;
+let sheepkeypoint = 0;
+let timerId13 = '';
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ランダムで現れるおばけ■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+function obakeApp(){
+    let com = Math.floor(Math.random()*6)+1;
+    if(com === 2){
+        fps12 = 0;
+        let timerId12 = setInterval(function(){
+            fps12++;
+            switch(fps12){
+                case 1:
+                neck1.style.display = 'inline';
+                break;
+                case 2:
+                neck1.style.display = 'none';
+                neck2.style.display = 'inline';
+                break;
+                case 3:
+                neck2.style.display = 'none';
+                neck3.style.display = 'inline';
+                break;
+                case 4:
+                neck3.style.display = 'none';
+                neck4.style.display = 'inline';
+                break;
+                case 5:
+                neck4.style.display = 'none';
+                neck5.style.display = 'inline';
+                break;
+                case 6:
+                neck5.style.display = 'none';
+                neck6.style.display = 'inline';
+                break;
+                case 7:
+                neck6.style.display = 'none';
+                neck7.style.display = 'inline';
+                break;
+                case 8:
+                neck7.style.display = 'none';
+                clearInterval(timerId12);
+                break;
+            }
+        },60);
+    }else if(com === 3){
+        fps13 = 0;
+        timerId13 = setInterval(function(){
+            fps13++;
+            switch(fps13){
+                case 1:
+                koekbsm.load();
+                koekbsm.play();
+                kbsmhitarea.style.display = 'inline';
+                kbsmnoclick.style.display = 'inline';
+                kbsm1.style.display = 'inline';
+                break;
+                case 2:
+                kbsm1.style.display = 'none';
+                kbsm2.style.display = 'inline';
+                break;
+                case 3:
+                kbsm2.style.display = 'none';
+                kbsm3.style.display = 'inline';
+                break;
+                case 4:
+                kbsm3.style.display = 'none';
+                kbsm4.style.display = 'inline';
+                break;
+                case 5:
+                kbsm4.style.display = 'none';
+                kbsm5.style.display = 'inline';
+                break;
+                case 6:
+                kbsm5.style.display = 'none';
+                kbsm6.style.display = 'inline';
+                break;
+                case 7:
+                kbsm6.style.display = 'none';
+                kbsm7.style.display = 'inline';
+                break;
+                case 31:
+                gameover.style.display = 'inline';
+                gameover.style.opacity = '0.2';
+                body.style.backgroundColor = '#330000';
+                break;
+                case 32:
+                gameover.style.display = 'inline';
+                gameover.style.opacity = '0.4';
+                body.style.backgroundColor = '#660000';
+                break;
+                case 33:
+                gameover.style.display = 'inline';
+                gameover.style.opacity = '0.6';
+                body.style.backgroundColor = '#990000';
+                break;
+                case 34:
+                gameover.style.display = 'inline';
+                gameover.style.opacity = '0.8';
+                body.style.backgroundColor = '#cc0000';
+                break;
+                case 35:
+                gameover.style.display = 'inline';
+                gameover.style.opacity = '1.0';
+                body.style.backgroundColor = '#ff0000';
+                break;
+                case 59:
+                location.href = 'https://www.youtube.com/watch?v=ByiSf0Jp2ko';
+                clearInterval(timerId13);
+                break;
+            }
+        },80);
+    }
+}
+kbsmhitarea.addEventListener('mouseover',function(){kbsmhitarea.style.cursor = 'pointer';});
+kbsmhitarea.addEventListener('click',function(){
+    seshot.load();
+    seshot.play();
+    koekbsm.pause();
+    kbsmhitarea.style.display = 'none';
+    clearInterval(timerId13);
+    kbsm1.style.display = 'none';
+    kbsm2.style.display = 'none';
+    kbsm3.style.display = 'none';
+    kbsm4.style.display = 'none';
+    kbsm5.style.display = 'none';
+    kbsm6.style.display = 'none';
+    kbsm7.style.display = 'none';
+    kbsmnoclick.style.display = 'none';
+    kbsmdeath1.style.display = 'inline';
+    fps14 = 0;
+    let timerId14 = setInterval(function(){
+        fps14++;
+        switch(fps14){
+            case 1:
+            kbsmdeath1.style.display = 'none';
+            kbsmdeath2.style.display = 'inline';
+            break;
+            case 2:
+            kbsmdeath2.style.display = 'none';
+            clearInterval(timerId14);
+            break;
+        }
+    },80);
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■各シーン消す■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+function sceneRoomHide(){
+    back.style.display = 'none';
+    mthum.style.display = 'none';
+    pthum.style.display = 'none';
+    kthum1.style.display = 'none';
+    kthum2.style.display = 'none';
+    kthum3.style.display = 'none';
+}
+function sceneProomHide1(){
+    koshitsu1.style.display = 'none';
+    holderclose1.style.display = 'none';
+    holderopen.style.display = 'none';
+    kinoita.style.display = 'none';
+    toiletclose.style.display = 'none';
+    toiletopen.style.display = 'none';
+    backbtpr1.style.display = 'none';
+}
+function sceneProomHide2(){
+    koshitsu2.style.display = 'none';
+    holderclose2.style.display = 'none';
+    holderopenmemo.style.display = 'none';
+    toiletclose.style.display = 'none';
+    toiletclose2.style.display = 'none';//シークレット
+    toiletopen.style.display = 'none';
+    kuma.style.display = 'none';//シークレット
+    backbtpr2.style.display = 'none';
+}
+function scenePosterHide(){
+    postertile.style.display = 'none';
+    driver.style.display = 'none';
+    poster.style.display = 'none';
+}
+function sceneMirrorHide(){
+    kinkoback1.style.display = 'none';
+    kinkoback2.style.display = 'none';
+    kinkoback3.style.display = 'none';
+    mirror.style.display = 'none';
+    key0.style.display = 'none';
+    key1.style.display = 'none';
+    key2.style.display = 'none';
+    key3.style.display = 'none';
+    key4.style.display = 'none';
+    key5.style.display = 'none';
+    key6.style.display = 'none';
+    key7.style.display = 'none';
+    key8.style.display = 'none';
+    key9.style.display = 'none';
+    key00.style.display = 'none';
+    key11.style.display = 'none';
+    key22.style.display = 'none';
+    key33.style.display = 'none';
+    key44.style.display = 'none';
+    key55.style.display = 'none';
+    key66.style.display = 'none';
+    key77.style.display = 'none';
+    key88.style.display = 'none';
+    key99.style.display = 'none';
+    key000.style.display = 'none';
+    key111.style.display = 'none';
+    key222.style.display = 'none';
+    key333.style.display = 'none';
+    key444.style.display = 'none';
+    key555.style.display = 'none';
+    key666.style.display = 'none';
+    key777.style.display = 'none';
+    key888.style.display = 'none';
+    key999.style.display = 'none';
+    key0000.style.display = 'none';
+    key1111.style.display = 'none';
+    key2222.style.display = 'none';
+    key3333.style.display = 'none';
+    key4444.style.display = 'none';
+    key5555.style.display = 'none';
+    key6666.style.display = 'none';
+    key7777.style.display = 'none';
+    key8888.style.display = 'none';
+    key9999.style.display = 'none';
+    backbtm.style.display = 'none';
+}
+function sceneDoorHide(){
+    sheepdoor.style.display = 'none';
+    nobu1.style.display = 'none';
+    nobuhitarea.style.display = 'none';
+    backbtd.style.display = 'none';
+}
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■各シーン表示する■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+function sceneRoomApp(){
+    if(driverpoint === 10 && kuginukipoint === 0){
+        obakeApp();//■■■■■おばけランダム出現■■■■■
+        back.style.display = 'inline';
+        mthum.style.display = 'inline';
+        kthum1.style.display = 'inline';
+        kthum2.style.display = 'inline';
+        kthum3.style.display = 'inline';
+    }else if(driverpoint === 10 && kuginukipoint === 10){
+        obakeApp();//■■■■■おばけランダム出現■■■■■
+        back.style.display = 'inline';
+        kthum1.style.display = 'inline';
+        kthum2.style.display = 'inline';
+        kthum3.style.display = 'inline';
+    }else{
+        obakeApp();//■■■■■おばけランダム出現■■■■■
+        back.style.display = 'inline';
+        mthum.style.display = 'inline';
+        pthum.style.display = 'inline';
+        kthum1.style.display = 'inline';
+        kthum2.style.display = 'inline';
+        kthum3.style.display = 'inline';
+    }
+}
+function sceneProomApp1(){
+    if(sheepkeypoint === 10){
+        obakeApp();//■■■■■おばけランダム出現■■■■■
+        koshitsu1.style.display = 'inline';
+        holderclose1.style.display = 'inline';
+        toiletclose.style.display = 'inline';
+        backbtpr1.style.display = 'inline';
+    }else{
+        obakeApp();//■■■■■おばけランダム出現■■■■■
+        koshitsu1.style.display = 'inline';
+        holderclose1.style.display = 'inline';
+        kinoita.style.display = 'inline';
+        toiletclose.style.display = 'inline';
+        backbtpr1.style.display = 'inline';
+    }
+}
+function sceneProomApp2(){
+    obakeApp();//■■■■■おばけランダム出現■■■■■
+    koshitsu2.style.display = 'inline';
+    holderclose2.style.display = 'inline';
+    toiletclose.style.display = 'inline';
+    backbtpr2.style.display = 'inline';
+}
+function sceneProomApp3(){
+    obakeApp();//■■■■■おばけランダム出現■■■■■
+    koshitsu2.style.display = 'inline';
+    toiletclose2.style.display = 'inline';
+    holderclose2.style.display = 'inline';
+    kuma.style.display = 'inline';
+    backbtpr2.style.display = 'inline';
+}
+function scenePosterApp(){
+    postertile.style.display = 'inline';
+    driver.style.display = 'inline';
+    poster.style.display = 'inline';
+}
+function sceneMirrorApp1(){
+    kinkoback1.style.display = 'inline';
+    mirror.style.display = 'inline';
+}
+function sceneMirrorApp2(){
+    kinkoback1.style.display = 'inline';
+    key0.style.display = 'inline';
+    key1.style.display = 'inline';
+    key2.style.display = 'inline';
+    key3.style.display = 'inline';
+    key4.style.display = 'inline';
+    key5.style.display = 'inline';
+    key6.style.display = 'inline';
+    key7.style.display = 'inline';
+    key8.style.display = 'inline';
+    key9.style.display = 'inline';
+    backbtm.style.display = 'inline';
+}
+function sceneDoorApp(){
+    sheepdoor.style.display = 'inline';
+    nobu1.style.display = 'inline';
+    nobuhitarea.style.display = 'inline';
+    backbtd.style.display = 'inline';
+}
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ポスターを調べる■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+pthum.addEventListener('mouseover',function(){pthum.style.cursor = 'pointer';});
+pthum.addEventListener('click',function(){
+    fps1 = 0;
+    sceneRoomHide();
+    scenePosterApp();
+    telop.style.left = '315px';
+    let timerId1 = setInterval(function(){
+        fps1++;
+        switch(fps1){
+            case 1:
+            telop.innerText = 'よ\nA m';
+            break;
+            case 2:
+            telop.innerText = 'よく\nA mys';
+            break;
+            case 3:
+            telop.innerText = 'よく分\nA myste';
+            break;
+            case 4:
+            telop.innerText = 'よく分か\nA mysteri';
+            break;
+            case 5:
+            telop.innerText = 'よく分から\nA mysteriou';
+            break;
+            case 6:
+            telop.innerText = 'よく分からない\nA mysterious p';
+            break;
+            case 7:
+            telop.innerText = 'よく分からないポ\nA mysterious pos';
+            break;
+            case 8:
+            telop.innerText = 'よく分からないポス\nA mysterious poste';
+            break;
+            case 9:
+            telop.innerText = 'よく分からないポスタ\nA mysterious poster i';
+            break;
+            case 10:
+            telop.innerText = 'よく分からないポスター\nA mysterious poster is s';
+            break;
+            case 11:
+            telop.innerText = 'よく分からないポスターが\nA mysterious poster is stu';
+            break;
+            case 12:
+            telop.innerText = 'よく分からないポスターが貼\nA mysterious poster is stuck';
+            break;
+            case 13:
+            telop.innerText = 'よく分からないポスターが貼っ\nA mysterious poster is stuck on';
+            break;
+            case 14:
+            telop.innerText = 'よく分からないポスターが貼って\nA mysterious poster is stuck on th';
+            break;
+            case 15:
+            telop.innerText = 'よく分からないポスターが貼ってあ\nA mysterious poster is stuck on the w';
+            break;
+            case 16:
+            telop.innerText = 'よく分からないポスターが貼ってある\nA mysterious poster is stuck on the wal';
+            break;
+            case 17:
+            telop.innerText = 'よく分からないポスターが貼ってある。\nA mysterious poster is stuck on the wall.';
+            break;
+            case 29:
+            telop.innerText = 'ポ\nDo';
+            break;
+            case 30:
+            telop.innerText = 'ポス\nDo yo';
+            break;
+            case 31:
+            telop.innerText = 'ポスタ\nDo you p';
+            break;
+            case 32:
+            telop.innerText = 'ポスター\nDo you pee';
+            break;
+            case 33:
+            telop.innerText = 'ポスターを\nDo you peel o';
+            break;
+            case 34:
+            telop.innerText = 'ポスターを剥\nDo you peel off';
+            break;
+            case 35:
+            telop.innerText = 'ポスターを剥が\nDo you peel off th';
+            break;
+            case 36:
+            telop.innerText = 'ポスターを剥がし\nDo you peel off this';
+            break;
+            case 37:
+            telop.innerText = 'ポスターを剥がしま\nDo you peel off this po';
+            break;
+            case 38:
+            telop.innerText = 'ポスターを剥がします\nDo you peel off this post';
+            break;
+            case 39:
+            telop.innerText = 'ポスターを剥がしますか\nDo you peel off this poster';
+            break;
+            case 40:
+            telop.innerText = 'ポスターを剥がしますか？\nDo you peel off this poster?';
+            yes1.style.display = 'inline';
+            no1.style.display = 'inline';
+            clearInterval(timerId1);
+            break;
+        }
+    },80);
+});
+//ポスターを剥がすor剥がさない
+yes1.addEventListener('mouseover',function(){yes1.style.cursor = 'pointer';});
+yes1.addEventListener('click',function(){
+    seposhagashi.load();
+    seposhagashi.play();
+    yes1.style.display = 'none';
+    no1.style.display = 'none';
+    poster.style.display = 'none';
+    telop.innerText = '';
+});
+no1.addEventListener('mouseover',function(){no1.style.cursor = 'pointer';});
+no1.addEventListener('click',function(){
+    yes1.style.display = 'none';
+    no1.style.display = 'none';
+    telop.innerText = '';
+    scenePosterHide();
+    sceneRoomApp();
+});
+//プラスドライバーを手に入れる
+driver.addEventListener('mouseover',function(){driver.style.cursor = 'pointer';});
+driver.addEventListener('click',function(){
+    seitemget.load();
+    seitemget.play();
+    driver.style.display = 'none';
+    driverpoint += 10;
+    let timerId2 = setInterval(function(){
+        fps2++;
+        switch(fps2){
+            case 1:
+            telop.innerText = 'プ\nYo';
+            break;
+            case 2:
+            telop.innerText = 'プラ\nYou g';
+            break;
+            case 3:
+            telop.innerText = 'プラス\nYou got';
+            break;
+            case 4:
+            telop.innerText = 'プラスド\nYou got a';
+            break;
+            case 5:
+            telop.innerText = 'プラスドラ\nYou got a Ph';
+            break;
+            case 6:
+            telop.innerText = 'プラスドライ\nYou got a Phil';
+            break;
+            case 7:
+            telop.innerText = 'プラスドライバ\nYou got a Philli';
+            break;
+            case 8:
+            telop.innerText = 'プラスドライバー\nYou got a Phillips';
+            break;
+            case 9:
+            telop.innerText = 'プラスドライバーを\nYou got a Phillips sc';
+            break;
+            case 10:
+            telop.innerText = 'プラスドライバーを手\nYou got a Phillips scre.';
+            break;
+            case 11:
+            telop.innerText = 'プラスドライバーを手に\nYou got a Phillips screwd';
+            break;
+            case 12:
+            telop.innerText = 'プラスドライバーを手に入\nYou got a Phillips screwdri';
+            break;
+            case 13:
+            telop.innerText = 'プラスドライバーを手に入れ\nYou got a Phillips screwdrive';
+            break;
+            case 14:
+            telop.innerText = 'プラスドライバーを手に入れた\nYou got a Phillips screwdriver';
+            break;
+            case 15:
+            telop.innerText = 'プラスドライバーを手に入れた。\nYou got a Phillips screwdriver.';
+            break;
+            case 39:
+            telop.innerText = '';
+            scenePosterHide();
+            sceneRoomApp();
+            clearInterval(timerId2);
+            break;
+        }
+    },80);
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■鏡を調べる■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+//【分岐1】鏡を調べる(プラスドライバー未所持の時)
+function mirrorInspect1(){
+    fps3 = 0;
+    sceneRoomHide();
+    sceneMirrorApp1();
+    telop.style.left = '225px';
+    let timerId3 = setInterval(function(){
+        fps3++;
+        switch(fps3){
+            case 1:
+            telop.innerText = 'こ\nI d';
+            break;
+            case 2:
+            telop.innerText = 'この\nI do n';
+            break;
+            case 3:
+            telop.innerText = 'この鏡\nI do not';
+            break;
+            case 4:
+            telop.innerText = 'この鏡は\nI do not se';
+            break;
+            case 5:
+            telop.innerText = 'この鏡は何\nI do not see m';
+            break;
+            case 6:
+            telop.innerText = 'この鏡は何故\nI do not see my f';
+            break;
+            case 7:
+            telop.innerText = 'この鏡は何故か\nI do not see my fig';
+            break;
+            case 8:
+            telop.innerText = 'この鏡は何故か\nI do not see my figur';
+            break;
+            case 9:
+            telop.innerText = 'この鏡は何故か自\nI do not see my figure i';
+            break;
+            case 10:
+            telop.innerText = 'この鏡は何故か自分\nI do not see my figure in t';
+            break;
+            case 11:
+            telop.innerText = 'この鏡は何故か自分の\nI do not see my figure in thi';
+            break;
+            case 12:
+            telop.innerText = 'この鏡は何故か自分の姿\nI do not see my figure in this mi';
+            break;
+            case 13:
+            telop.innerText = 'この鏡は何故か自分の姿が\nI do not see my figure in this mirro';
+            break;
+            case 14:
+            telop.innerText = 'この鏡は何故か自分の姿が映\nI do not see my figure in this mirror fo';
+            break;
+            case 15:
+            telop.innerText = 'この鏡は何故か自分の姿が映ら\nI do not see my figure in this mirror for so';
+            break;
+            case 16:
+            telop.innerText = 'この鏡は何故か自分の姿が映らな\nI do not see my figure in this mirror for some r';
+            break;
+            case 17:
+            telop.innerText = 'この鏡は何故か自分の姿が映らない\nI do not see my figure in this mirror for some reas';
+            break;
+            case 18:
+            telop.innerText = 'この鏡は何故か自分の姿が映らない。\nI do not see my figure in this mirror for some reason.';
+            break;
+            case 42:
+            telop.innerText = '';
+            sceneMirrorHide();
+            sceneRoomApp();
+            clearInterval(timerId3);
+            break;
+        }
+    },80);
+}
+//【分岐2】鏡を調べる(プラスドライバー所持の時)
+function mirrorInspect2(){
+    fps4 = 0;
+    sceneRoomHide();
+    sceneMirrorApp1();
+    telop.style.left = '225px';
+    let timerId4 = setInterval(function(){
+        fps4++;
+        switch(fps4){
+            case 1:
+            telop.innerText = 'こ\nI d';
+            break;
+            case 2:
+            telop.innerText = 'この\nI do n';
+            break;
+            case 3:
+            telop.innerText = 'この鏡\nI do not';
+            break;
+            case 4:
+            telop.innerText = 'この鏡は\nI do not se';
+            break;
+            case 5:
+            telop.innerText = 'この鏡は何\nI do not see m';
+            break;
+            case 6:
+            telop.innerText = 'この鏡は何故\nI do not see my f';
+            break;
+            case 7:
+            telop.innerText = 'この鏡は何故か\nI do not see my fig';
+            break;
+            case 8:
+            telop.innerText = 'この鏡は何故か\nI do not see my figur';
+            break;
+            case 9:
+            telop.innerText = 'この鏡は何故か自\nI do not see my figure i';
+            break;
+            case 10:
+            telop.innerText = 'この鏡は何故か自分\nI do not see my figure in t';
+            break;
+            case 11:
+            telop.innerText = 'この鏡は何故か自分の\nI do not see my figure in thi';
+            break;
+            case 12:
+            telop.innerText = 'この鏡は何故か自分の姿\nI do not see my figure in this mi';
+            break;
+            case 13:
+            telop.innerText = 'この鏡は何故か自分の姿が\nI do not see my figure in this mirro';
+            break;
+            case 14:
+            telop.innerText = 'この鏡は何故か自分の姿が映\nI do not see my figure in this mirror fo';
+            break;
+            case 15:
+            telop.innerText = 'この鏡は何故か自分の姿が映ら\nI do not see my figure in this mirror for so';
+            break;
+            case 16:
+            telop.innerText = 'この鏡は何故か自分の姿が映らな\nI do not see my figure in this mirror for some r';
+            break;
+            case 17:
+            telop.innerText = 'この鏡は何故か自分の姿が映らない\nI do not see my figure in this mirror for some reas';
+            break;
+            case 18:
+            telop.innerText = 'この鏡は何故か自分の姿が映らない。\nI do not see my figure in this mirror for some reason.';
+            break;
+            case 30:
+            telop.innerText = 'プ\nYou';
+            break;
+            case 31:
+            telop.innerText = 'プラ\nYou may';
+            break;
+            case 32:
+            telop.innerText = 'プラス\nYou may be a';
+            break;
+            case 33:
+            telop.innerText = 'プラスド\nYou may be able';
+            break;
+            case 34:
+            telop.innerText = 'プラスドラ\nYou may be able to r';
+            break;
+            case 35:
+            telop.innerText = 'プラスドライ\nYou may be able to remo';
+            break;
+            case 36:
+            telop.innerText = 'プラスドライバ\nYou may be able to remove t';
+            break;
+            case 37:
+            telop.innerText = 'プラスドライバー\nYou may be able to remove this';
+            break;
+            case 38:
+            telop.innerText = 'プラスドライバーで\nYou may be able to remove this mir';
+            break;
+            case 39:
+            telop.innerText = 'プラスドライバーで取\nYou may be able to remove this mirror';
+            break;
+            case 40:
+            telop.innerText = 'プラスドライバーで取り\nYou may be able to remove this mirror usi';
+            break;
+            case 41:
+            telop.innerText = 'プラスドライバーで取り外\nYou may be able to remove this mirror using a';
+            break;
+            case 42:
+            telop.innerText = 'プラスドライバーで取り外せ\nYou may be able to remove this mirror using a Phil';
+            break;
+            case 43:
+            telop.innerText = 'プラスドライバーで取り外せそ\nYou may be able to remove this mirror using a Phillips';
+            break;
+            case 44:
+            telop.innerText = 'プラスドライバーで取り外せそう\nYou may be able to remove this mirror using a Phillips scre';
+            break;
+            case 45:
+            telop.innerText = 'プラスドライバーで取り外せそうだ\nYou may be able to remove this mirror using a Phillips screwdri';
+            break;
+            case 46:
+            telop.innerText = 'プラスドライバーで取り外せそうだ。\nYou may be able to remove this mirror using a Phillips screwdriver.';
+            break;
+            case 58:
+            telop.innerText = '鏡\nDo y';
+            break;
+            case 58:
+            telop.innerText = '鏡を\nDo you w';
+            break;
+            case 59:
+            telop.innerText = '鏡を取\nDo you want';
+            break;
+            case 60:
+            telop.innerText = '鏡を取り\nDo you want to r';
+            break;
+            case 61:
+            telop.innerText = '鏡を取り外\nDo you want to remo';
+            break;
+            case 62:
+            telop.innerText = '鏡を取り外し\nDo you want to remove t';
+            break;
+            case 63:
+            telop.innerText = '鏡を取り外しま\nDo you want to remove this';
+            break;
+            case 64:
+            telop.innerText = '鏡を取り外します\nDo you want to remove this mir';
+            break;
+            case 65:
+            telop.innerText = '鏡を取り外しますか\nDo you want to remove this mirro';
+            break;
+            case 66:
+            telop.innerText = '鏡を取り外しますか？\nDo you want to remove this mirror?';
+            yes2.style.display = 'inline';
+            no2.style.display = 'inline';
+            clearInterval(timerId4);
+            break;
+        }
+    },80);
+}
+//【分岐3】は鏡を取り除いた状態の金庫を表示(関数「sceneMirrorApp2」を実行)
+
+//鏡のサムネをクリックした時もし
+mthum.addEventListener('mouseover',function(){mthum.style.cursor = 'pointer';});
+mthum.addEventListener('click',function(){
+    if(driverpoint === 10 && mirrorpoint === 0){
+        mirrorInspect2();//分岐2
+    }else if(driverpoint === 10 && mirrorpoint === 10){
+        sceneMirrorApp2();//分岐3
+    }else{
+        mirrorInspect1();//分岐1
+    }
+});
+//分岐2でyesを選んだ時
+yes2.addEventListener('mouseover',function(){yes2.style.cursor = 'pointer';});
+yes2.addEventListener('click',function(){
+    semirrorout.load();
+    semirrorout.play();
+    yes2.style.display = 'none';
+    no2.style.display = 'none';
+    telop.innerText = '';
+    mirror.style.display = 'none';
+    mthum.style.opacity = '0.0';//部屋全体シーンの鏡サムネを透明にする
+    key0.style.display = 'inline';
+    key1.style.display = 'inline';
+    key2.style.display = 'inline';
+    key3.style.display = 'inline';
+    key4.style.display = 'inline';
+    key5.style.display = 'inline';
+    key6.style.display = 'inline';
+    key7.style.display = 'inline';
+    key8.style.display = 'inline';
+    key9.style.display = 'inline';
+    backbtm.style.display = 'inline';
+    mirrorpoint += 10;
+});
+//分岐2でnoを選んだ時
+no2.addEventListener('mouseover',function(){no2.style.cursor = 'pointer';});
+no2.addEventListener('click',function(){
+    yes2.style.display = 'none';
+    no2.style.display = 'none';
+    telop.innerText = '';
+    sceneMirrorHide();
+    sceneRoomApp();
+});
+//「BACK」ボタンを押して部屋全体のシーンに戻る
+backbtm.addEventListener('mouseover',function(){backbtm.style.cursor = 'pointer';});
+backbtm.addEventListener('click',function(){
+    sceneMirrorHide();
+    sceneRoomApp();
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■金庫を開錠する■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+function keyhide1(){
+    key0.style.display = 'none';
+    key1.style.display = 'none';
+    key2.style.display = 'none';
+    key3.style.display = 'none';
+    key4.style.display = 'none';
+    key5.style.display = 'none';
+    key6.style.display = 'none';
+    key7.style.display = 'none';
+    key8.style.display = 'none';
+    key9.style.display = 'none';
+}
+function keyhide2(){
+    key00.style.display = 'none';
+    key11.style.display = 'none';
+    key22.style.display = 'none';
+    key33.style.display = 'none';
+    key44.style.display = 'none';
+    key55.style.display = 'none';
+    key66.style.display = 'none';
+    key77.style.display = 'none';
+    key88.style.display = 'none';
+    key99.style.display = 'none';
+}
+function keyhide3(){
+    key000.style.display = 'none';
+    key111.style.display = 'none';
+    key222.style.display = 'none';
+    key333.style.display = 'none';
+    key444.style.display = 'none';
+    key555.style.display = 'none';
+    key666.style.display = 'none';
+    key777.style.display = 'none';
+    key888.style.display = 'none';
+    key999.style.display = 'none';
+}
+function keyhide4(){
+    key0000.style.display = 'none';
+    key1111.style.display = 'none';
+    key2222.style.display = 'none';
+    key3333.style.display = 'none';
+    key4444.style.display = 'none';
+    key5555.style.display = 'none';
+    key6666.style.display = 'none';
+    key7777.style.display = 'none';
+    key8888.style.display = 'none';
+    key9999.style.display = 'none';
+}
+function keyapp1(){
+    key0.style.display = 'inline';
+    key1.style.display = 'inline';
+    key2.style.display = 'inline';
+    key3.style.display = 'inline';
+    key4.style.display = 'inline';
+    key5.style.display = 'inline';
+    key6.style.display = 'inline';
+    key7.style.display = 'inline';
+    key8.style.display = 'inline';
+    key9.style.display = 'inline';
+}
+function keyapp2(){
+    key00.style.display = 'inline';
+    key11.style.display = 'inline';
+    key22.style.display = 'inline';
+    key33.style.display = 'inline';
+    key44.style.display = 'inline';
+    key55.style.display = 'inline';
+    key66.style.display = 'inline';
+    key77.style.display = 'inline';
+    key88.style.display = 'inline';
+    key99.style.display = 'inline';
+}
+function keyapp3(){
+    key000.style.display = 'inline';
+    key111.style.display = 'inline';
+    key222.style.display = 'inline';
+    key333.style.display = 'inline';
+    key444.style.display = 'inline';
+    key555.style.display = 'inline';
+    key666.style.display = 'inline';
+    key777.style.display = 'inline';
+    key888.style.display = 'inline';
+    key999.style.display = 'inline';
+}
+function keyapp4(){
+    key0000.style.display = 'inline';
+    key1111.style.display = 'inline';
+    key2222.style.display = 'inline';
+    key3333.style.display = 'inline';
+    key4444.style.display = 'inline';
+    key5555.style.display = 'inline';
+    key6666.style.display = 'inline';
+    key7777.style.display = 'inline';
+    key8888.style.display = 'inline';
+    key9999.style.display = 'inline';
+}
+function keyappdum(){
+    keydum0.style.display = 'inline';
+    keydum1.style.display = 'inline';
+    keydum2.style.display = 'inline';
+    keydum3.style.display = 'inline';
+    keydum4.style.display = 'inline';
+    keydum5.style.display = 'inline';
+    keydum6.style.display = 'inline';
+    keydum7.style.display = 'inline';
+    keydum8.style.display = 'inline';
+    keydum9.style.display = 'inline';
+}
+function keyhidedum(){
+    keydum0.style.display = 'none';
+    keydum1.style.display = 'none';
+    keydum2.style.display = 'none';
+    keydum3.style.display = 'none';
+    keydum4.style.display = 'none';
+    keydum5.style.display = 'none';
+    keydum6.style.display = 'none';
+    keydum7.style.display = 'none';
+    keydum8.style.display = 'none';
+    keydum9.style.display = 'none';
+}
+//■■■■■■■■■■入力1回目■■■■■■■■■■
+key0.addEventListener('mouseover',function(){key0.style.cursor='pointer';});
+key0.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key1.addEventListener('mouseover',function(){key1.style.cursor='pointer';});
+key1.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key2.addEventListener('mouseover',function(){key2.style.cursor='pointer';});
+key2.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key3.addEventListener('mouseover',function(){key3.style.cursor='pointer';});
+key3.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key4.addEventListener('mouseover',function(){key4.style.cursor='pointer';});
+key4.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key5.addEventListener('mouseover',function(){key5.style.cursor='pointer';});
+key5.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key6.addEventListener('mouseover',function(){key6.style.cursor='pointer';});
+key6.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key7.addEventListener('mouseover',function(){key7.style.cursor='pointer';});
+key7.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide1();
+    keyapp2();
+});
+key8.addEventListener('mouseover',function(){key8.style.cursor='pointer';});
+key8.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+key9.addEventListener('mouseover',function(){key9.style.cursor='pointer';});
+key9.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+});
+//■■■■■■■■■■入力2回目■■■■■■■■■■
+key00.addEventListener('mouseover',function(){key00.style.cursor='pointer';});
+key00.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp3();
+});
+key11.addEventListener('mouseover',function(){key11.style.cursor='pointer';});
+key11.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key22.addEventListener('mouseover',function(){key22.style.cursor='pointer';});
+key22.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key33.addEventListener('mouseover',function(){key33.style.cursor='pointer';});
+key33.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key44.addEventListener('mouseover',function(){key44.style.cursor='pointer';});
+key44.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key55.addEventListener('mouseover',function(){key55.style.cursor='pointer';});
+key55.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key66.addEventListener('mouseover',function(){key66.style.cursor='pointer';});
+key66.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key77.addEventListener('mouseover',function(){key77.style.cursor='pointer';});
+key77.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key88.addEventListener('mouseover',function(){key88.style.cursor='pointer';});
+key88.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+key99.addEventListener('mouseover',function(){key99.style.cursor='pointer';});
+key99.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide2();
+    keyapp1();
+});
+//■■■■■■■■■■入力3回目■■■■■■■■■■
+key000.addEventListener('mouseover',function(){key000.style.cursor='pointer';});
+key000.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key111.addEventListener('mouseover',function(){key111.style.cursor='pointer';});
+key111.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key222.addEventListener('mouseover',function(){key222.style.cursor='pointer';});
+key222.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key333.addEventListener('mouseover',function(){key333.style.cursor='pointer';});
+key333.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key444.addEventListener('mouseover',function(){key444.style.cursor='pointer';});
+key444.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key555.addEventListener('mouseover',function(){key555.style.cursor='pointer';});
+key555.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key666.addEventListener('mouseover',function(){key666.style.cursor='pointer';});
+key666.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key777.addEventListener('mouseover',function(){key777.style.cursor='pointer';});
+key777.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key888.addEventListener('mouseover',function(){key888.style.cursor='pointer';});
+key888.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp1();
+});
+key999.addEventListener('mouseover',function(){key999.style.cursor='pointer';});
+key999.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide3();
+    keyapp4();
+});
+//■■■■■■■■■■入力4回目■■■■■■■■■■
+key0000.addEventListener('mouseover',function(){key0000.style.cursor='pointer';});
+key0000.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key1111.addEventListener('mouseover',function(){key1111.style.cursor='pointer';});
+key1111.addEventListener('click',function(){
+    sekeysuc.load();
+    sekeysuc.play();
+    backbtm.style.display = 'none';
+    keyhide4();
+    keyappdum();
+    let timerId6 = setInterval(function(){
+        fps6++;
+        if(fps6 === 1){
+            sekinkoopen.load();
+            sekinkoopen.play();
+            keyhidedum();
+            kinkoback1.style.display = 'none';
+            kinkoback2.style.display = 'inline';
+            kuginukiarea.style.display = 'inline';
+            clearInterval(timerId6);
+        }
+    },500);
+});
+key2222.addEventListener('mouseover',function(){key2222.style.cursor='pointer';});
+key2222.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key3333.addEventListener('mouseover',function(){key3333.style.cursor='pointer';});
+key3333.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key4444.addEventListener('mouseover',function(){key4444.style.cursor='pointer';});
+key4444.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key5555.addEventListener('mouseover',function(){key5555.style.cursor='pointer';});
+key5555.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key6666.addEventListener('mouseover',function(){key6666.style.cursor='pointer';});
+key6666.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key7777.addEventListener('mouseover',function(){key7777.style.cursor='pointer';});
+key7777.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key8888.addEventListener('mouseover',function(){key8888.style.cursor='pointer';});
+key8888.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+key9999.addEventListener('mouseover',function(){key9999.style.cursor='pointer';});
+key9999.addEventListener('click',function(){
+    sekey.load();
+    sekey.play();
+    keyhide4();
+    keyapp1();
+});
+//釘抜きゲット
+kuginukiarea.addEventListener('mouseover',function(){kuginukiarea.style.cursor = 'pointer';});
+kuginukiarea.addEventListener('click',function(){
+    seitemget.load();
+    seitemget.play();
+    kuginukipoint += 10;
+    kuginukiarea.style.display = 'none';
+    kinkoback2.style.display = 'none';
+    kinkoback3.style.display = 'inline';
+    let timerId7 = setInterval(function(){
+        fps7++;
+        switch(fps7){
+            case 1:
+            telop.style.left = '382px';
+            telop.innerText = '釘\nYo';
+            break;
+            case 2:
+            telop.innerText = '釘抜\nYou g';
+            break;
+            case 3:
+            telop.innerText = '釘抜き\nYou got';
+            break;
+            case 4:
+            telop.innerText = '釘抜きを\nYou got a n';
+            break;
+            case 5:
+            telop.innerText = '釘抜きを手\nYou got a nai';
+            break;
+            case 6:
+            telop.innerText = '釘抜きを手に\nYou got a nail p';
+            break;
+            case 7:
+            telop.innerText = '釘抜きを手に入\nYou got a nail pun';
+            break;
+            case 8:
+            telop.innerText = '釘抜きを手に入れ\nYou got a nail punc';
+            break;
+            case 9:
+            telop.innerText = '釘抜きを手に入れた\nYou got a nail punch';
+            break;
+            case 10:
+            telop.innerText = '釘抜きを手に入れた。\nYou got a nail punch.';
+            break;
+            case 34:
+            telop.innerText = '';
+            sceneMirrorHide();
+            sceneRoomApp();
+            clearInterval(timerId7);
+            break;
+        }
+    },80);
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■個室1を調べる■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+kthum1.addEventListener('mouseover',function(){kthum1.style.cursor = 'pointer';});
+kthum1.addEventListener('click',function(){
+    sceneRoomHide();
+    sceneProomApp1();
+});
+//ペーパーホルダーを調べる
+holderclose1.addEventListener('mouseover',function(){holderclose1.style.cursor = 'pointer';});
+holderclose1.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    holderclose1.style.display = 'none';
+    holderopen.style.display = 'inline';
+});
+holderopen.addEventListener('mouseover',function(){holderopen.style.cursor = 'pointer';});
+holderopen.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    holderopen.style.display = 'none';
+    holderclose1.style.display = 'inline';
+});
+//トイレカパカパする(個室1と個室2共通)
+toiletclose.addEventListener('mouseover',function(){toiletclose.style.cursor = 'pointer';});
+toiletclose.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    toiletclose.style.display = 'none';
+    toiletopen.style.display = 'inline';
+});
+toiletopen.addEventListener('mouseover',function(){toiletopen.style.cursor = 'pointer';});
+toiletopen.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    toiletopen.style.display = 'none';
+    toiletclose.style.display = 'inline';
+});
+//戻るボタン
+backbtpr1.addEventListener('mouseover',function(){backbtpr1.style.cursor = 'pointer';});
+backbtpr1.addEventListener('click',function(){
+    sceneProomHide1();
+    sceneRoomApp();
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■木の板シーン■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+kinoita.addEventListener('mouseover',function(){kinoita.style.cursor = 'pointer';});
+kinoita.addEventListener('click',function(){
+    if(kuginukipoint === 10){
+        sceneProomHide1();
+        kinoback1.style.display = 'inline';
+        let timerId8 = setInterval(function(){
+            fps8++;
+            switch(fps8){
+                case 1:
+                telop.style.left = '325px';
+                telop.innerText = '木\nA';
+                break;
+                case 2:
+                telop.innerText = '木の\nA w';
+                break;
+                case 3:
+                telop.innerText = '木の板\nA wo';
+                break;
+                case 4:
+                telop.innerText = '木の板が\nA woo';
+                break;
+                case 5:
+                telop.innerText = '木の板が釘\nA wood';
+                break;
+                case 6:
+                telop.innerText = '木の板が釘で\nA woode';
+                break;
+                case 7:
+                telop.innerText = '木の板が釘で打\nA wooden';
+                break;
+                case 8:
+                telop.innerText = '木の板が釘で打ち\nA wooden b';
+                break;
+                case 9:
+                telop.innerText = '木の板が釘で打ち付\nA wooden bo';
+                break;
+                case 10:
+                telop.innerText = '木の板が釘で打ち付け\nA wooden boa';
+                break;
+                case 11:
+                telop.innerText = '木の板が釘で打ち付けら\nA wooden boar';
+                break;
+                case 12:
+                telop.innerText = '木の板が釘で打ち付けられ\nA wooden board';
+                break;
+                case 13:
+                telop.innerText = '木の板が釘で打ち付けられて\nA wooden board is';
+                break;
+                case 14:
+                telop.innerText = '木の板が釘で打ち付けられてい\nA wooden board is na';
+                break;
+                case 15:
+                telop.innerText = '木の板が釘で打ち付けられている\nA wooden board is nail';
+                break;
+                case 16:
+                telop.innerText = '木の板が釘で打ち付けられている。\nA wooden board is nailed.';
+                break;
+                case 28:
+                telop.style.left = '373px';
+                telop.innerText = '釘\nYo';
+                break;
+                case 29:
+                telop.innerText = '釘抜\nYou u';
+                break;
+                case 30:
+                telop.innerText = '釘抜き\nYou use';
+                break;
+                case 31:
+                telop.innerText = '釘抜きを\nYou used a';
+                break;
+                case 32:
+                telop.innerText = '釘抜きを使\nYou used a nai';
+                break;
+                case 33:
+                telop.innerText = '釘抜きを使っ\nYou used a nail cl';
+                break;
+                case 34:
+                telop.innerText = '釘抜きを使った\nYou used a nail clipp';
+                break;
+                case 35:
+                telop.innerText = '釘抜きを使った。\nYou used a nail clipper.';
+                break;
+                case 47:
+                semirrorout.load();
+                semirrorout.play();
+                telop.innerText = '';
+                kinoback1.style.display = 'none';
+                kinoback2.style.display = 'inline';
+                sheepkeyarea.style.display = 'inline';
+                clearInterval(timerId8);
+                break;
+            }
+        },80);
+    }else{
+        fps9 = 0;
+        sceneProomHide1();
+        kinoback1.style.display = 'inline';
+        let timerId9 = setInterval(function(){
+            fps9++;
+            switch(fps9){
+                case 1:
+                telop.style.left = '325px';
+                telop.innerText = '木\nA';
+                break;
+                case 2:
+                telop.innerText = '木の\nA w';
+                break;
+                case 3:
+                telop.innerText = '木の板\nA wo';
+                break;
+                case 4:
+                telop.innerText = '木の板が\nA woo';
+                break;
+                case 5:
+                telop.innerText = '木の板が釘\nA wood';
+                break;
+                case 6:
+                telop.innerText = '木の板が釘で\nA woode';
+                break;
+                case 7:
+                telop.innerText = '木の板が釘で打\nA wooden';
+                break;
+                case 8:
+                telop.innerText = '木の板が釘で打ち\nA wooden b';
+                break;
+                case 9:
+                telop.innerText = '木の板が釘で打ち付\nA wooden bo';
+                break;
+                case 10:
+                telop.innerText = '木の板が釘で打ち付け\nA wooden boa';
+                break;
+                case 11:
+                telop.innerText = '木の板が釘で打ち付けら\nA wooden boar';
+                break;
+                case 12:
+                telop.innerText = '木の板が釘で打ち付けられ\nA wooden board';
+                break;
+                case 13:
+                telop.innerText = '木の板が釘で打ち付けられて\nA wooden board is';
+                break;
+                case 14:
+                telop.innerText = '木の板が釘で打ち付けられてい\nA wooden board is na';
+                break;
+                case 15:
+                telop.innerText = '木の板が釘で打ち付けられている\nA wooden board is nail';
+                break;
+                case 16:
+                telop.innerText = '木の板が釘で打ち付けられている。\nA wooden board is nailed.';
+                break;
+                case 28:
+                telop.innerText = '';
+                kinoback1.style.display = 'none';
+                sceneProomApp1();
+                clearInterval(timerId9);
+                break;
+            }
+        },80);
+    }
+});
+//羊の鍵を手に入れる
+sheepkeyarea.addEventListener('mouseover',function(){sheepkeyarea.style.cursor = 'pointer';});
+sheepkeyarea.addEventListener('click',function(){
+    seitemget.load();
+    seitemget.play();
+    sheepkeypoint += 10;
+    sheepkeyarea.style.display = 'none';
+    kinoback2.style.display = 'none';
+    kinoback3.style.display = 'inline';
+    let timerId10 = setInterval(function(){
+        fps10++;
+        switch(fps10){
+            case 1:
+            telop.style.left = '384px';
+            telop.innerText = '羊\nYo';
+            break;
+            case 2:
+            telop.innerText = '羊の\nYou g';
+            break;
+            case 3:
+            telop.innerText = '羊の鍵\nYou got';
+            break;
+            case 4:
+            telop.innerText = '羊の鍵を\nYou got a s';
+            break;
+            case 5:
+            telop.innerText = '羊の鍵を手\nYou got a she';
+            break;
+            case 6:
+            telop.innerText = '羊の鍵を手に\nYou got a sheep';
+            break;
+            case 7:
+            telop.innerText = '羊の鍵を手に入\nYou got a sheep k';
+            break;
+            case 8:
+            telop.innerText = '羊の鍵を手に入れ\nYou got a sheep ke';
+            break;
+            case 9:
+            telop.innerText = '羊の鍵を手に入れた\nYou got a sheep key';
+            break;
+            case 10:
+            telop.innerText = '羊の鍵を手に入れた。\nYou got a sheep key.';
+            break;
+            case 22:
+            telop.innerText = '';
+            kinoback3.style.display = 'none';
+            sceneProomApp1();
+            clearInterval(timerId10);
+            break;
+        }
+    },80);
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■個室2を調べる■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+kthum2.addEventListener('mouseover',function(){kthum2.style.cursor = 'pointer';});
+kthum2.addEventListener('click',function(){
+    sceneRoomHide();
+    if(sheepkeypoint === 10){
+        sceneProomApp3();
+    }else{
+        sceneProomApp2();
+    }
+});
+//ペーパーホルダーを調べる
+holderclose2.addEventListener('mouseover',function(){holderclose2.style.cursor = 'pointer';});
+holderclose2.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    holderclose2.style.display = 'none';
+    holderopenmemo.style.display = 'inline';
+});
+holderopenmemo.addEventListener('mouseover',function(){holderopenmemo.style.cursor = 'pointer';});
+holderopenmemo.addEventListener('click',function(){
+    sekapakapa.load();
+    sekapakapa.play();
+    holderopenmemo.style.display = 'none';
+    holderclose2.style.display = 'inline';
+});
+//戻るボタン
+backbtpr2.addEventListener('mouseover',function(){backbtpr2.style.cursor = 'pointer';});
+backbtpr2.addEventListener('click',function(){
+    sceneProomHide2();
+    sceneRoomApp();
+});
+/*■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■羊扉を調べる■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■*/
+kthum3.addEventListener('mouseover',function(){kthum3.style.cursor = 'pointer';});
+kthum3.addEventListener('click',function(){
+    sceneRoomHide();
+    sceneDoorApp();
+});
+//ドアノブを調べる
+nobuhitarea.addEventListener('mouseover',function(){nobuhitarea.style.cursor = 'pointer';});
+nobuhitarea.addEventListener('click',function(){
+    if(sheepkeypoint === 10){
+        backbtd.style.display = 'none';
+        nobuhitarea.style.display = 'none';
+        let timerId11 = setInterval(function(){
+            fps11++;
+            switch(fps11){
+                case 1:
+                seunlock.load();
+                seunlock.play();
+                telop.innerText = '羊\nYo';
+                break;
+                case 2:
+                telop.innerText = '羊の\nYou u';
+                break;
+                case 3:
+                telop.innerText = '羊の鍵\nYou use';
+                break;
+                case 4:
+                telop.innerText = '羊の鍵を\nYou used a';
+                break;
+                case 5:
+                telop.innerText = '羊の鍵を使\nYou used a sh';
+                break;
+                case 6:
+                telop.innerText = '羊の鍵を使っ\nYou used a shee';
+                break;
+                case 7:
+                telop.innerText = '羊の鍵を使った\nYou used a sheep k';
+                break;
+                case 8:
+                telop.innerText = '羊の鍵を使った。\nYou used a sheep key.';
+                break;
+                case 20:
+                sedoor.load();
+                sedoor.play();
+                telop.innerText = '';
+                nobu1.style.display = 'none';
+                sheepdoor.style.display = 'none';
+                sheepdooropen.style.display = 'inline';
+                linkarea.style.display = 'inline';
+                break;
+            }
+        },80);
+    }else{
+        fps5 = 0;
+        segachagacha.load();
+        segachagacha.play();
+        backbtd.style.display = 'none';
+        nobuhitarea.style.display = 'none';
+        nobu1.style.display = 'none';
+        nobu2.style.display = 'inline';
+        let timerId5 = setInterval(function(){
+            fps5++;
+            switch(fps5){
+                case 1:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //1回目終了
+                case 3:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 4:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //2回目終了
+                case 6:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 7:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //3回目終了
+                case 9:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 10:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //4回目終了
+                case 12:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 13:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //5回目終了
+                case 15:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 16:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //6回目終了
+                case 18:
+                nobu1.style.display = 'none';
+                nobu2.style.display = 'inline';
+                break;
+                case 19:
+                nobu2.style.display = 'none';
+                nobu1.style.display = 'inline';
+                break;
+                //7回目終了
+                case 20:
+                telop.style.left = '340px';
+                telop.innerText = 'こ\nT';
+                break;
+                case 21:
+                telop.innerText = 'この\nTh';
+                break;
+                case 22:
+                telop.innerText = 'このド\nThi';
+                break;
+                case 23:
+                telop.innerText = 'このドア\nThis';
+                break;
+                case 24:
+                telop.innerText = 'このドアは\nThis d';
+                break;
+                case 25:
+                telop.innerText = 'このドアは鍵\nThis do';
+                break;
+                case 26:
+                telop.innerText = 'このドアは鍵が\nThis doo';
+                break;
+                case 27:
+                telop.innerText = 'このドアは鍵がか\nThis door';
+                break;
+                case 28:
+                telop.innerText = 'このドアは鍵がかか\nThis door i';
+                break;
+                case 29:
+                telop.innerText = 'このドアは鍵がかかっ\nThis door is';
+                break;
+                case 30:
+                telop.innerText = 'このドアは鍵がかかって\nThis door is l';
+                break;
+                case 31:
+                telop.innerText = 'このドアは鍵がかかってい\nThis door is loc';
+                break;
+                case 32:
+                telop.innerText = 'このドアは鍵がかかっている\nThis door is locke';
+                break;
+                case 33:
+                telop.innerText = 'このドアは鍵がかかっている。\nThis door is locked.';
+                break;
+                case 45:
+                telop.innerText = '';
+                nobuhitarea.style.display = 'inline';
+                backbtd.style.display = 'inline';
+                clearInterval(timerId5);
+                break;
+            }
+        },80);
+    }
+});
+linkarea.addEventListener('mouseover',function(){linkarea.style.cursor = 'pointer';});
+linkarea.addEventListener('click',function(){
+    location.href = 'mmeaizreo.html';
+});
+//戻るボタン
+backbtd.addEventListener('mouseover',function(){backbtd.style.cursor = 'pointer';});
+backbtd.addEventListener('click',function(){
+    sceneDoorHide();
+    sceneRoomApp();
+});
+</script>
+<!--
+<script src="pjs/jquery-3.3.1.min.js"></script>
+<script src="pjs/.js"></script>
+-->
+</body>
+</html>
